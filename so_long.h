@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcekici <mcekici@student.42kocaeli.com.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:17:21 by mcekici           #+#    #+#             */
+/*   Updated: 2025/04/19 18:17:21 by mcekici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
 # define PIXEL_SIZE		64
 
 # define KEY_PRESS 2
-# define KEY_RELEASE 3
 # define KEY_EXIT 17
 
 # define KEY_W		119
@@ -33,7 +44,6 @@ typedef struct count
 	int		step;
 }			t_count;
 
-
 typedef struct map
 {
 	int				w;
@@ -50,12 +60,12 @@ typedef struct player
 
 typedef struct game
 {
-	void		*character_left_front_img;
-	void		*character_left_back_img;
-	void		*character_right_front_img;
-	void		*character_right_back_img;
-	void		*background_img;
-	void		*collectible_img;
+	void		*c_l_f_img;
+	void		*c_l_b_img;
+	void		*c_r_f_img;
+	void		*c_r_b_img;
+	void		*bg_img;
+	void		*collec_img;
 	void		*exit_img;
 	void		*wall_img;
 	t_player	player;
@@ -67,12 +77,14 @@ typedef struct game
 void		run_game(t_game *game);
 void		game_loop(t_game *game);
 void		render_game(t_game *game, int r_case);
+int			select_player_image(int keycode, t_game *game);
 int			check_path(char *path);
+void		check_err(int err_flag, int fd, char *map_buffer);
 void		init_map(t_map *map);
 void		init_game(t_game *game);
 void		free_map(char ***map);
 void		free_game(t_game *game);
-char		**get_map(char *path);
+char		*get_map(char *path);
 char		*map_check(t_map *map);
 int			check_flood_fill(t_map *map, t_position player_pos);
 void		handle_map(t_game *game, char *path);

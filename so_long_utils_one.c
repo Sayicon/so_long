@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long_utils_one.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcekici <mcekici@student.42kocaeli.com.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 13:08:50 by mcekici           #+#    #+#             */
+/*   Updated: 2025/04/19 13:08:50 by mcekici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 #include <fcntl.h>
 #include <stdlib.h>
@@ -20,7 +32,7 @@ void	handle_error(char *message, int error_type, void *ptr)
 	exit(EXIT_FAILURE);
 }
 
-t_position get_player_pos(t_map *map)
+t_position	get_player_pos(t_map *map)
 {
 	int			i;
 	int			j;
@@ -53,18 +65,18 @@ void	free_game(t_game *game)
 {
 	if (game->map.this_map)
 		free_map(&(game->map.this_map));
-	if (game->character_left_front_img)
-		mlx_destroy_image(game->mlx, game->character_left_front_img);
-	if (game->character_left_back_img)
-		mlx_destroy_image(game->mlx, game->character_left_back_img);
-	if (game->character_right_front_img)
-		mlx_destroy_image(game->mlx, game->character_right_front_img);
-	if (game->character_right_back_img)
-		mlx_destroy_image(game->mlx, game->character_right_back_img);
-	if (game->background_img)
-		mlx_destroy_image(game->mlx, game->background_img);
-	if (game->collectible_img)
-		mlx_destroy_image(game->mlx, game->collectible_img);
+	if (game->c_l_f_img)
+		mlx_destroy_image(game->mlx, game->c_l_f_img);
+	if (game->c_l_b_img)
+		mlx_destroy_image(game->mlx, game->c_l_b_img);
+	if (game->c_r_f_img)
+		mlx_destroy_image(game->mlx, game->c_r_f_img);
+	if (game->c_r_b_img)
+		mlx_destroy_image(game->mlx, game->c_r_b_img);
+	if (game->bg_img)
+		mlx_destroy_image(game->mlx, game->bg_img);
+	if (game->collec_img)
+		mlx_destroy_image(game->mlx, game->collec_img);
 	if (game->exit_img)
 		mlx_destroy_image(game->mlx, game->exit_img);
 	if (game->wall_img)
@@ -81,24 +93,24 @@ static void	free_game_pt_two(t_game *game)
 	{
 		mlx_destroy_display(game->mlx);
 		if (game->mlx)
-		free(game->mlx);
+			free(game->mlx);
 	}
 }
 
 static void	clear_game(t_game *game)
 {
-	if (game->character_left_back_img)
-		game->character_left_back_img = NULL;
-	if (game->character_left_front_img)
-		game->character_left_front_img = NULL;
-	if (game->character_right_back_img)
-		game->character_right_back_img = NULL;
-	if (game->character_right_front_img)
-		game->character_right_front_img = NULL;
-	if (game->background_img)
-		game->background_img = NULL;
-	if (game->collectible_img)
-		game->collectible_img = NULL;
+	if (game->c_l_b_img)
+		game->c_l_b_img = NULL;
+	if (game->c_l_f_img)
+		game->c_l_f_img = NULL;
+	if (game->c_r_b_img)
+		game->c_r_b_img = NULL;
+	if (game->c_r_f_img)
+		game->c_r_f_img = NULL;
+	if (game->bg_img)
+		game->bg_img = NULL;
+	if (game->collec_img)
+		game->collec_img = NULL;
 	if (game->exit_img)
 		game->exit_img = NULL;
 	if (game->wall_img)

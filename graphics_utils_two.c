@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   graphics_utils_two.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcekici <mcekici@student.42kocaeli.com.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 17:55:56 by mcekici           #+#    #+#             */
+/*   Updated: 2025/04/19 17:55:56 by mcekici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 #include <stdlib.h>
 #include "libft/libft.h"
 #include "minilibx-linux/mlx.h"
 
+static void	pos_event_handler(t_game *game, int move_flag);
 static int	event_handler(int keycode, t_game *game);
 static int	player_pos_updater(int key, t_game *game_data);
-static int	swap_images(void **current_img, void *new_img);
-static int	select_player_image(int keycode, t_game *game);
-void		pos_event_handler(t_game *game,int move_flag);
 int			exit_game(t_game *game);
 
 void	game_loop(t_game *game)
@@ -52,67 +62,13 @@ static int	player_pos_updater(int keycode, t_game *game)
 		game->player.pos.x--;
 	else if (keycode == KEY_D)
 		game->player.pos.x++;
-	if (keycode == KEY_A || keycode == KEY_S || keycode == KEY_D || keycode == KEY_W)
+	if (keycode == KEY_A || keycode == KEY_S
+		|| keycode == KEY_D || keycode == KEY_W)
 		return (1);
 	return (0);
 }
 
-static int	select_player_image(int keycode, t_game *game)
-{
-	void	**img;
-	int		move_flag;
-
-	img = &(game->player.current_image);
-	move_flag = 0;
-	if (keycode == KEY_W)
-	{
-		if(game->player.current_image == game->character_left_front_img)
-			move_flag = swap_images(img, game->character_left_back_img);
-		else if (game->player.current_image == game->character_right_front_img)
-			move_flag = swap_images(img, game->character_right_back_img);
-		if (game->map.this_map[game->player.pos.y - 1][game->player.pos.x] != '1')
-			move_flag = 0;
-	}
-	else if (keycode == KEY_S)
-	{
-		if(game->player.current_image == game->character_left_back_img)
-			move_flag = swap_images(img, game->character_left_front_img);
-		else if (game->player.current_image == game->character_right_back_img)
-			move_flag = swap_images(img, game->character_right_front_img);
-		if (game->map.this_map[game->player.pos.y + 1][game->player.pos.x] != '1')
-			move_flag = 0;
-	}
-	else if (keycode == KEY_A)
-	{
-		if (game->player.current_image == game->character_right_back_img)
-			move_flag = swap_images(img, game->character_left_back_img);
-		else if (game->player.current_image == game->character_right_front_img)
-			move_flag = swap_images(img, game->character_left_front_img);
-		if (game->map.this_map[game->player.pos.y][game->player.pos.x - 1] != '1')
-			move_flag = 0;
-	}
-	else if (keycode == KEY_D)
-	{
-		if (game->player.current_image == game->character_left_back_img)
-			move_flag = swap_images(img, game->character_right_back_img);
-		else if (game->player.current_image == game->character_left_front_img)
-			move_flag = swap_images(img, game->character_right_front_img);
-		if (game->map.this_map[game->player.pos.y][game->player.pos.x + 1] != '1')
-			move_flag = 0;
-	}
-	return (move_flag);
-}
-
-static int	swap_images(void **current_img, void *new_img)
-{
-	if (*current_img != new_img)
-		*current_img = new_img;
-	else
-		return (0);
-	return (1);
-}
-
-void	pos_event_handler(t_game *game,int move_flag)
+static void	pos_event_handler(t_game *game, int move_flag)
 {
 	t_position	*p_pos;
 	t_map		*map;
@@ -130,7 +86,8 @@ void	pos_event_handler(t_game *game,int move_flag)
 		map->this_map[p_pos->y][p_pos->x] = 0;
 		map->counter.collecteble -= 1;
 	}
-	if (map->counter.collecteble == 0 && map->this_map[p_pos->y][p_pos->x] == EXIT)
+	if (map->counter.collecteble == 0
+		&& map->this_map[p_pos->y][p_pos->x] == EXIT)
 		exit_game(game);
 }
 

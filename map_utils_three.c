@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_utils_three.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcekici <mcekici@student.42kocaeli.com.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 13:51:37 by mcekici           #+#    #+#             */
+/*   Updated: 2025/04/19 13:51:37 by mcekici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 #include "libft/libft.h"
+#include <unistd.h>
 
 static int	is_rectangle_and_valid_chars(t_map *map);
 static int	walls_check(t_map *map);
@@ -8,13 +21,13 @@ static int	count_objects(t_map *map);
 char	*map_check(t_map *map)
 {
 	if (is_rectangle_and_valid_chars(map) == 0)
-		return ("Error\nmap is not rectangular shape or contains invalid characters.\n");
+		return (
+			"Error\nmap is not rectangular or contains invalid characters.\n");
 	if (walls_check(map) == 0)
 		return ("Error\nmap is not surrounded by walls.\n");
-	if (map->w < 4 || map->h < 4 || map->w == map->h)
-		return ("Error\nmap is too small or square.\n");
 	if (count_objects(map) == 0)
-		return ("Error\nmap must contain 1 player, 1 exit and at least 1 collectable.\n");
+		return (
+			"Error\nmap must contain 1 player, 1 exit and min 1 collectable.\n");
 	if (check_flood_fill(map, get_player_pos(map)) == 0)
 		return ("");
 	return (0);
@@ -35,8 +48,9 @@ static int	is_rectangle_and_valid_chars(t_map *map)
 		j = 0;
 		while (j < map->w)
 		{
-			if (map->this_map[i][j] != WALL && map->this_map[i][j] != FLOOR && 
-				map->this_map[i][j] != PLAYER && map->this_map[i][j] != COLLECTEBLE && 
+			if (map->this_map[i][j] != WALL && map->this_map[i][j] != FLOOR &&
+				map->this_map[i][j] != PLAYER &&
+				map->this_map[i][j] != COLLECTEBLE &&
 				map->this_map[i][j] != EXIT)
 				return (0);
 			j ++;
@@ -73,9 +87,6 @@ static int	count_objects(t_map *map)
 	int	i;
 	int	j;
 
-	map->counter.player = 0;
-	map->counter.collecteble = 0;
-	map->counter.exit = 0;
 	i = 0;
 	while (map->this_map[i])
 	{
@@ -92,7 +103,15 @@ static int	count_objects(t_map *map)
 		}
 		i ++;
 	}
-	if (map->counter.player != 1 || map->counter.exit != 1 || map->counter.collecteble <= 0)
+	if (map->counter.player != 1 || map->counter.exit != 1
+		|| map->counter.collecteble <= 0)
 		return (0);
 	return (1);
+}
+
+void	check_err(int err_flag, int fd, char *map_buffer)
+{
+	close(fd);
+	if (err_flag)
+		handle_error("Error\nInvalid Map!\n", 3, map_buffer);
 }

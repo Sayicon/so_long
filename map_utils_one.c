@@ -1,25 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_utils_one.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcekici <mcekici@student.42kocaeli.com.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 14:01:23 by mcekici           #+#    #+#             */
+/*   Updated: 2025/04/19 14:01:23 by mcekici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
+#include "libft/libft.h"
 #include <stdlib.h>
 
 int	check_path(char *path)
 {
 	int	i;
 
-	i = 0;
-	while (path[i])
-		i ++;
-	if (i < 5 || !path[0] || path[i - 4] != '.' || path[i - 3] != 'b' || path[i - 2] != 'e' || path[i - 1] != 'r')
+	i = ft_strlen(path);
+	if (!path || i < 5 || path[0] == '.')
+		return (0);
+	path = ft_strrchr(path, '.');
+	if (!path || *(path - 1) == '/' || ft_strlen(path) != 4 || path[0] != '.'
+		|| path[1] != 'b' || path[2] != 'e' || path[3] != 'r')
 		return (0);
 	return (1);
 }
 
 void	handle_map(t_game *game, char *path)
 {
-	char *map_check_result;
+	char	*map_buffer;
+	char	*map_check_result;
 
-	game->map.this_map = get_map(path);
+	map_buffer = get_map(path);
+	if (!map_buffer)
+		handle_error("Error\nFailed to read map.\n", 0, (void *)0);
+	game->map.this_map = ft_split(map_buffer, '\n');
 	if (!game->map.this_map)
-		handle_error("Error\nFailed to read map.\n", 1, NULL);
+		handle_error("Error\nFailed to read map.\n", 3, map_buffer);
+	else
+		free(map_buffer);
 	map_check_result = map_check(&(game->map));
 	if (map_check_result != 0)
 		handle_error(map_check_result, 2, &(game->map));
@@ -57,12 +78,12 @@ void	init_map(t_map *map)
 void	init_game(t_game *game)
 {
 	init_map(&(game->map));
-	game->character_left_front_img = NULL;
-	game->character_left_back_img = NULL;
-	game->character_right_front_img = NULL;
-	game->character_right_back_img = NULL;
-	game->background_img = NULL;
-	game->collectible_img = NULL;
+	game->c_l_f_img = NULL;
+	game->c_l_b_img = NULL;
+	game->c_r_f_img = NULL;
+	game->c_r_b_img = NULL;
+	game->bg_img = NULL;
+	game->collec_img = NULL;
 	game->exit_img = NULL;
 	game->wall_img = NULL;
 	game->win = NULL;

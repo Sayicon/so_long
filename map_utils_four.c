@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_utils_four.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcekici <mcekici@student.42kocaeli.com.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 14:13:16 by mcekici           #+#    #+#             */
+/*   Updated: 2025/04/19 14:13:16 by mcekici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 #include "libft/libft.h"
 
@@ -28,32 +40,37 @@ static char	**clone_map(t_map *map)
 	return (cloned_map);
 }
 
-static void	ff_recursive(t_map *cloned_map, t_position player_pos, int map_h, int map_w)
+static void	ff_recursive(t_map *c_map, t_position p_pos, int map_h, int map_w)
 {
-	if (player_pos.x < 0 || player_pos.x >= map_w || player_pos.y < 0 || player_pos.y >= map_h)
+	if (p_pos.x < 0 || p_pos.x >= map_w
+		|| p_pos.y < 0 || p_pos.y >= map_h)
 		return ;
-	if (cloned_map->this_map[player_pos.y][player_pos.x] == WALL)
+	if (c_map->this_map[p_pos.y][p_pos.x] == WALL)
 		return ;
-	if (cloned_map->this_map[player_pos.y][player_pos.x] == COLLECTEBLE)
-		cloned_map->counter.collecteble ++;
-	else if (cloned_map->this_map[player_pos.y][player_pos.x] == EXIT)
-		cloned_map->counter.exit ++;
-	cloned_map->this_map[player_pos.y][player_pos.x] = WALL;
-	ff_recursive(cloned_map, (t_position){player_pos.x + 1, player_pos.y}, map_h, map_w);
-	ff_recursive(cloned_map, (t_position){player_pos.x - 1, player_pos.y}, map_h, map_w);
-	ff_recursive(cloned_map, (t_position){player_pos.x, player_pos.y + 1}, map_h, map_w);
-	ff_recursive(cloned_map, (t_position){player_pos.x, player_pos.y - 1}, map_h, map_w);
+	if (c_map->this_map[p_pos.y][p_pos.x] == COLLECTEBLE)
+		c_map->counter.collecteble ++;
+	else if (c_map->this_map[p_pos.y][p_pos.x] == EXIT)
+		c_map->counter.exit ++;
+	c_map->this_map[p_pos.y][p_pos.x] = WALL;
+	ff_recursive(c_map, (t_position){p_pos.x + 1, p_pos.y},
+		map_h, map_w);
+	ff_recursive(c_map, (t_position){p_pos.x - 1, p_pos.y},
+		map_h, map_w);
+	ff_recursive(c_map, (t_position){p_pos.x, p_pos.y + 1},
+		map_h, map_w);
+	ff_recursive(c_map, (t_position){p_pos.x, p_pos.y - 1},
+		map_h, map_w);
 }
 
 static int	check_ff_counts(t_count *map_count, t_count *cloned_count)
 {
-	if (map_count->collecteble != cloned_count->collecteble || 
-		map_count->exit != cloned_count->exit)
+	if (map_count->collecteble != cloned_count->collecteble
+		|| map_count->exit != cloned_count->exit)
 		return (1);
 	return (0);
 }
 
-int	check_flood_fill(t_map *map, t_position player_pos)
+int	check_flood_fill(t_map *map, t_position p_pos)
 {
 	t_map	cloned_map;
 
@@ -63,10 +80,13 @@ int	check_flood_fill(t_map *map, t_position player_pos)
 	cloned_map.this_map = clone_map(map);
 	if (!cloned_map.this_map)
 		return (0);
-	ff_recursive(&cloned_map, (t_position){player_pos.x, player_pos.y}, map->h, map->w);
+	ff_recursive(&cloned_map, (t_position){p_pos.x, p_pos.y},
+		map->h, map->w);
 	if (check_ff_counts(&(map->counter), &(cloned_map.counter)))
 	{
-		ft_putstr_fd("Error\nCollectible items or exit on the map cannot be reached at startup. undefined map.\n", 2);
+		ft_putstr_fd(
+			"Error\nMap elements cannot be reached at startup. undefined map.\n",
+			2);
 		free_map(&(cloned_map.this_map));
 		return (0);
 	}
