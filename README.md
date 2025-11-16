@@ -4,6 +4,7 @@
 
 Bu proje, **42 okulu** için yapılmış bir oyun projesidir.  
 ᕦ(ò_óˇ)ᕤ Amaç: Minilibx ile pencere oluşturma, render süreçlerini ve sprite'ları anlamak, Klavye sinyallerini ele almak maskelemek vs. (Sinyal yönetimini öğrenmek), FloodFill gibi backtrack algoritmalarının mantığını kavramak.
+![Oynanış](github-images/so_long.gif)
 
 ---
 
