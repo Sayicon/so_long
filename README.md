@@ -9,14 +9,14 @@ Bu proje, **42 okulu** için yapılmış bir oyun projesidir.
 
 ## 📋 İçindekiler
 
-1. [Proje Hakkında](#proje-hakkında)  
-2. [Özellikler](#özellikler)  
-3. [Gereksinimler](#gereksinimler)  
-4. [Kurulum ve Çalıştırma](#kurulum-ve-çalıştırma)  
-5. [Oynanış](#oynanış)  
-6. [Harita Formatı](#harita-formatı)  
-7. [Yapılandırma ve Komutlar](#yapılandırma-ve-komutlar)   
-8. [Lisans](#lisans)  
+1. [Proje Hakkında](#-proje-hakkında)  
+2. [Özellikler](#-özellikler)  
+3. [Gereksinimler](#-gereksinimler)  
+4. [Kurulum ve Çalıştırma](#-kurulum-ve-çalıştırma)  
+5. [Oynanış](#-oynanış)  
+6. [Harita Formatı](#-harita-formatı)  
+7. [Yapılandırma ve Komutlar](#-yapılandırma-ve-komutlar)   
+8. [Lisans](#-lisans)  
 
 ---
 
